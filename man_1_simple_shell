@@ -1,0 +1,10 @@
+.TH simpleshell 1.0 "Dec 28 2025"
+.SH NAME
+simpleshell - Simple Shell for Holberton School
+.SH SYNOPSIS
+simpleshell
+.SH DESCRIPTION
+Simple shell recreation, can execute programs as written commands.
+Once you start the program you will be met with a prompt to start typing a command, you can use a program's name or a program's path.
+.SH AUTHOR
+Tito Alberto Mundo Rodríguez
