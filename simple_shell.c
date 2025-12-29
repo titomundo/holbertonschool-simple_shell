@@ -37,6 +37,9 @@ int main(int argc, char *argv[])
 			buf[nread - 1] = 0;
 			args = arg_array(buf);
 
+			if (args)
+				exit(1);
+
 			if (execve(args[0], args, NULL) == -1)
 				perror(argv[argc * 0]);
 
@@ -48,7 +51,6 @@ int main(int argc, char *argv[])
 		if (isatty(0) == 1)
 			printf("$ ");
 	}
-
 	free(buf);
 	return (0);
 }
