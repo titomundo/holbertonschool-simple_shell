@@ -20,7 +20,9 @@ int main(int argc, char *argv[])
 	pid_t process;
 	int status;
 
-	printf("$ ");
+	if (isatty(0) == 1)
+		printf("$ ");
+
 	while ((nread = getline(&buf, &len, stdin)) != -1)
 	{
 		process = fork();
@@ -43,7 +45,8 @@ int main(int argc, char *argv[])
 		else
 			wait(&status);
 
-		printf("$ ");
+		if (isatty(0) == 1)
+			printf("$ ");
 	}
 
 	free(buf);
