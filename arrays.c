@@ -1,0 +1,77 @@
+#include "shell.h"
+
+/**
+* print_array - prints an array of strings
+* @arr: arrray to print
+* @size: size of the array
+*
+* Return: void
+*/
+void print_array(char **arr, int size)
+{
+	int i;
+
+	for (i = 0; i < size; i++)
+		printf("[%d]: %s\n", i, arr[i]);
+}
+
+/**
+* word_count - returns the number of words in a string
+* @str: string to check
+*
+* Return: number of words
+*/
+int word_count(char *str)
+{
+	int i;
+	char *temp;
+	char *token;
+
+	if (!str)
+		return (0);
+
+	temp = strdup(str);
+	token = strtok(temp, " ");
+	i = 0;
+
+	while (token)
+	{
+		i++;
+		token = strtok(NULL, " ");
+	}
+
+	return (i);
+}
+
+/**
+* arg_array - separates word in an array of arguments
+* @str: string to convert
+*
+* Return: pointer to the array
+*/
+char **arg_array(char *str)
+{
+	char **args;
+	char *token, *temp;
+	int i, size;
+
+	size = word_count(str);
+	args = (char **) malloc(1 + (size + sizeof(char *)));
+
+	if (!args)
+		return (0);
+
+	temp = strdup(str);
+	token = strtok(temp, " ");
+	i = 0;
+
+	while (i < size && token)
+	{
+		args[i] = strdup(token);
+		token = strtok(NULL, " ");
+		i++;
+	}
+
+	args[size] = NULL;
+	return (args);
+}
