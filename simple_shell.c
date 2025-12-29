@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 			buf[nread - 1] = 0;
 			args = arg_array(buf);
 
-			if (args)
+			if (!args)
 				exit(1);
 
 			if (execve(args[0], args, NULL) == -1)

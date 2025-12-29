@@ -56,10 +56,17 @@ char **arg_array(char *str)
 	int i, size;
 
 	size = word_count(str);
+
+	if (size < 1)
+		return (0);
+
 	args = (char **) malloc(1 + (size + sizeof(char *)));
 
 	if (!args)
+	{
+		printf("test\n");
 		return (0);
+	}
 
 	temp = strdup(str);
 	token = strtok(temp, " ");
