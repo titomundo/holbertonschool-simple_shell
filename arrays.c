@@ -44,6 +44,23 @@ int word_count(char *str)
 }
 
 /**
+* free_array - frees an array
+* @arr: array to clear
+* @size: size of the array
+*
+* Return: void
+*/
+void free_array(char **arr, int size)
+{
+	int i;
+
+	for (i = 0; i < size; i++)
+		free(arr[i]);
+
+	free(arr);
+}
+
+/**
 * arg_array - separates word in an array of arguments
 * @str: string to convert
 *
@@ -63,10 +80,7 @@ char **arg_array(char *str)
 	args = (char **) malloc(1 + (size + sizeof(char *)));
 
 	if (!args)
-	{
-		printf("test\n");
 		return (0);
-	}
 
 	temp = strdup(str);
 	token = strtok(temp, " ");

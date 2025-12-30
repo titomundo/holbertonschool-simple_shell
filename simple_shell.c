@@ -15,8 +15,7 @@ int main(int argc, char *argv[])
 {
 	size_t len = 0;
 	ssize_t nread;
-	char *buf = NULL;
-	char **args;
+	char *buf = NULL, **args = NULL;
 	pid_t process;
 	int status;
 
@@ -30,20 +29,19 @@ int main(int argc, char *argv[])
 		if (process == -1)
 		{
 			perror("Error: ");
-			return (0);
+			exit(1);
 		}
 		else if (process == 0)
 		{
 			buf[nread - 1] = 0;
 			args = arg_array(buf);
-
 			if (!args)
 				exit(1);
 
 			if (execve(args[0], args, NULL) == -1)
 				perror(argv[argc * 0]);
 
-			exit(1);
+			exit(0);
 		}
 		else
 			wait(&status);
@@ -51,6 +49,8 @@ int main(int argc, char *argv[])
 		if (isatty(0) == 1)
 			printf("$ ");
 	}
+
 	free(buf);
+	free(args);
 	return (0);
 }
