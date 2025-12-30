@@ -51,6 +51,6 @@ int main(int argc, char *argv[])
 	}
 
 	free(buf);
-	free(args);
+	free_array(args, nread + 1);
 	return (0);
 }
