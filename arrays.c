@@ -40,6 +40,7 @@ int word_count(char *str)
 		token = strtok(NULL, " ");
 	}
 
+	free(temp);
 	return (i);
 }
 
@@ -93,6 +94,7 @@ char **arg_array(char *str)
 		i++;
 	}
 
+	free(temp);
 	args[size] = NULL;
 	return (args);
 }
