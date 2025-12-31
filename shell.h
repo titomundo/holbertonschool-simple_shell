@@ -9,5 +9,6 @@ void print_array(char **arr, int size);
 int word_count(char *str);
 char **arg_array(char *str);
 void free_array(char **arr, int size);
+void print_prompt(void);
 
 #endif

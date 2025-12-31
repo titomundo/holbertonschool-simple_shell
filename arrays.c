@@ -76,8 +76,7 @@ char **arg_array(char *str)
 
 	if (size < 1)
 		return (0);
-
-	args = (char **) malloc(1 + (size * sizeof(char *)));
+	args = (char **) malloc((size + 1) * sizeof(char *));
 
 	if (!args)
 		return (0);
@@ -89,6 +88,12 @@ char **arg_array(char *str)
 	while (token)
 	{
 		args[i] = strdup(token);
+		if (!args[i])
+		{
+			free(temp);
+			free_array(args, size);
+			return (0);
+		}
 		token = strtok(NULL, " ");
 		i++;
 	}

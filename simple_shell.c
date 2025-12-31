@@ -5,6 +5,16 @@
 #include "shell.h"
 
 /**
+ * print_prompt - prints the $ prompt to the user
+ *
+ * Return: void
+ */
+void print_prompt(void)
+{
+	if (isatty(0) == 1)
+		printf("$ ");
+}
+/**
  * main - start shell
  * @argc: number of arguments
  * @argv: arguments
@@ -17,40 +27,39 @@ int main(int argc, char *argv[])
 	ssize_t nread;
 	char *buf = NULL, **args = NULL;
 	pid_t process;
-	int status;
 
-	if (isatty(0) == 1)
-		printf("$ ");
+	print_prompt();
 
 	while ((nread = getline(&buf, &len, stdin)) != -1)
 	{
 		process = fork();
+		buf[nread - 1] = '\0';
+		nread--;
 
-		if (process == -1)
+		if (process < 0)
 		{
 			perror("Error: ");
 			exit(1);
 		}
 		else if (process == 0)
 		{
-			buf[nread - 1] = 0;
 			args = arg_array(buf);
+
 			if (!args)
-				exit(1);
+				break;
 
 			if (execve(args[0], args, NULL) == -1)
 				perror(argv[argc * 0]);
 
-			exit(0);
+			break;
 		}
 		else
-			wait(&status);
+			wait(NULL);
 
-		if (isatty(0) == 1)
-			printf("$ ");
+		print_prompt();
 	}
 
 	free(buf);
-	free_array(args, nread + 1);
+	free_array(args, nread);
 	return (0);
 }
