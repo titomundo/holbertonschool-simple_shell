@@ -24,8 +24,7 @@ void print_array(char **arr, int size)
 int word_count(char *str)
 {
 	int i;
-	char *temp;
-	char *token;
+	char *temp, *token;
 
 	if (!str)
 		return (0);
@@ -78,7 +77,7 @@ char **arg_array(char *str)
 	if (size < 1)
 		return (0);
 
-	args = (char **) malloc(1 + (size + sizeof(char *)));
+	args = (char **) malloc(1 + (size * sizeof(char *)));
 
 	if (!args)
 		return (0);
@@ -87,7 +86,7 @@ char **arg_array(char *str)
 	token = strtok(temp, " ");
 	i = 0;
 
-	while (i < size && token)
+	while (token)
 	{
 		args[i] = strdup(token);
 		token = strtok(NULL, " ");
