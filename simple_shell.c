@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
 #include "shell.h"
 
 /**
@@ -14,6 +10,7 @@ void print_prompt(void)
 	if (isatty(0) == 1)
 		printf("$ ");
 }
+
 /**
  * main - start shell
  * @argc: number of arguments
@@ -26,39 +23,40 @@ int main(int argc, char *argv[])
 	size_t len = 0;
 	ssize_t nread;
 	char *buf = NULL, **args = NULL;
-	pid_t process;
+	pid_t pid;
+	int shell = 1;
 
-	print_prompt();
-
-	while ((nread = getline(&buf, &len, stdin)) != -1)
+	while (shell)
 	{
-		process = fork();
+		print_prompt();
+		nread = getline(&buf, &len, stdin);
 		buf[nread - 1] = '\0';
 		nread--;
 
-		if (process < 0)
+		if (nread < 0)
+			break;
+
+		args = arg_array(buf);
+
+		if (!args)
+			continue;
+
+		pid = fork();
+
+		if (pid < 0)
 		{
 			perror("Error: ");
 			exit(1);
 		}
-		else if (process == 0)
+		else if (pid == 0)
 		{
-			args = arg_array(buf);
-
-			if (!args)
-				break;
-
 			if (execve(args[0], args, NULL) == -1)
 				perror(argv[argc * 0]);
-
-			break;
 		}
-		else
-			wait(NULL);
 
-		print_prompt();
+		wait(NULL);
 	}
-
+	
 	free(buf);
 	free_array(args, nread);
 	return (0);
