@@ -12,7 +12,7 @@ char **split_path(char *path)
 	char *token, *temp;
 	int i, size;
 
-	size = word_count2(path);
+	size = dir_count(path);
 
 	if (size < 1)
 		return (0);
