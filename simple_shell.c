@@ -15,49 +15,49 @@ void print_prompt(void)
  * main - start shell
  * @argc: number of arguments
  * @argv: arguments
+ * @env: env variables
  *
  * Return: Always 0
  */
-int main(int argc, char *argv[])
+int main(int argc, char *argv[], char *env[])
 {
 	size_t len = 0;
 	ssize_t nread;
-	char *buf = NULL, **args = NULL;
-	pid_t pid;
-	int shell = 1;
+	char *buf = NULL, *cmd, **args = NULL;
 
-	while (shell)
+	while (1)
 	{
 		print_prompt();
 		nread = getline(&buf, &len, stdin);
-		buf[nread - 1] = '\0';
-		nread--;
 
-		if (nread < 0)
+		if (nread < 1)
 			break;
 
+		buf[nread - 1] = '\0';
+		nread--;
 		args = arg_array(buf);
 
 		if (!args)
 			continue;
 
-		pid = fork();
+		cmd = get_cmd(split_path(get_path(env)), args[0]);
 
-		if (pid < 0)
+		if (access(args[0], F_OK) == 0)
+			run_cmd(args[0], args, env, buf);
+		else if (cmd)
+			run_cmd(cmd, args, env, buf);
+		else
 		{
-			perror("Error: ");
-			exit(1);
-		}
-		else if (pid == 0)
-		{
-			if (execve(args[0], args, NULL) == -1)
-				perror(argv[argc * 0]);
+			free_array(args);
+			perror(argv[argc * 0]);
+			continue;
 		}
 
+		free(cmd);
+		free_array(args);
 		wait(NULL);
 	}
-	
+
 	free(buf);
-	free_array(args, nread);
 	return (0);
 }

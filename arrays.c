@@ -3,20 +3,22 @@
 /**
 * print_array - prints an array of strings
 * @arr: arrray to print
-* @size: size of the array
 *
 * Return: void
 */
-void print_array(char **arr, int size)
+void print_array(char **arr)
 {
-	int i;
+	int i = 0;
 
-	for (i = 0; i < size; i++)
+	while (arr[i])
+	{
 		printf("[%d]: %s\n", i, arr[i]);
+		i++;
+	}
 }
 
 /**
-* word_count - returns the number of words in a string
+* word_count - returns the number of words in user input
 * @str: string to check
 *
 * Return: number of words
@@ -44,18 +46,49 @@ int word_count(char *str)
 }
 
 /**
+* dir_count - returns the number of directories in the PATH
+* @path: PATH variable
+*
+* Return: number of words
+*/
+int dir_count(char *path)
+{
+	int i;
+	char *temp, *token;
+
+	if (!path)
+		return (0);
+
+	temp = strdup(path);
+	token = strtok(temp, ":");
+	i = 0;
+
+	while (token)
+	{
+		i++;
+		token = strtok(NULL, ":");
+	}
+
+	free(temp);
+	return (i);
+}
+
+/**
 * free_array - frees an array
 * @arr: array to clear
-* @size: size of the array
 *
 * Return: void
 */
-void free_array(char **arr, int size)
-{
-	int i;
 
-	for (i = 0; i < size; i++)
+void free_array(char **arr)
+{
+	int i = 0;
+
+	while (arr[i])
+	{
 		free(arr[i]);
+		i++;
+	}
 
 	free(arr);
 }
@@ -76,7 +109,9 @@ char **arg_array(char *str)
 
 	if (size < 1)
 		return (0);
+
 	args = (char **) malloc((size + 1) * sizeof(char *));
+	args[size] = NULL;
 
 	if (!args)
 		return (0);
@@ -91,7 +126,7 @@ char **arg_array(char *str)
 		if (!args[i])
 		{
 			free(temp);
-			free_array(args, size);
+			free_array(args);
 			return (0);
 		}
 		token = strtok(NULL, " ");
@@ -99,6 +134,5 @@ char **arg_array(char *str)
 	}
 
 	free(temp);
-	args[size] = NULL;
 	return (args);
 }

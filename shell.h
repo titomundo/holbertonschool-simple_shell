@@ -6,16 +6,23 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/stat.h>
-#include <sys/types.h>
 #include <sys/wait.h>
 
-void print_array(char **arr, int size);
-void print_array2(char **arr);
-int word_count(char *str);
-int word_count2(char *str);
-char **arg_array(char *str);
-char **env_array(char *str);
-void free_array(char **arr, int size);
 void print_prompt(void);
+
+/* ARRAYS */
+void print_array(char **arr);
+int word_count(char *str);
+int dir_count(char *path);
+char **arg_array(char *str);
+void free_array(char **arr);
+
+/* PATH */
+char *get_path(char **env);
+char **split_path(char *path);
+char *get_cmd(char **arr, char *cmd);
+
+/* FORK */
+int run_cmd(char *cmd, char **args, char **env, char *buf);
 
 #endif
