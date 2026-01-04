@@ -10,7 +10,10 @@ char **split_path(char *path)
 {
 	char **args;
 	char *token, *temp;
-	int i, size;
+	int i = 0, size;
+
+	if (!path)
+		return (0);
 
 	size = dir_count(path);
 
@@ -25,7 +28,6 @@ char **split_path(char *path)
 
 	temp = strdup(path);
 	token = strtok(temp, ":");
-	i = 0;
 
 	while (token)
 	{
@@ -57,6 +59,9 @@ char *get_path(char **env)
 {
 	int i = 0;
 
+	if (!env)
+		return (0);
+
 	while (env[i])
 	{
 		if (strncmp(env[i], "PATH=", 5) == 0)
@@ -81,6 +86,9 @@ char *get_cmd(char **path, char *cmd)
 	char *temp;
 
 	s1 = strlen(cmd);
+
+	if (!path || !cmd)
+		return (0);
 
 	while (path[i])
 	{

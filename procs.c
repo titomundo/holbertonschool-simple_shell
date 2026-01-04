@@ -13,6 +13,9 @@ int run_cmd(char *cmd, char **args, char **env, char *buf)
 {
 	pid_t pid = fork();
 
+	if (!cmd | !args)
+		return (0);
+
 	if (pid < 0)
 	{
 		perror("Error: ");
