@@ -12,7 +12,7 @@ void print_array(char **arr)
 
 	while (arr[i])
 	{
-		printf("[%d]: %s\n", i, arr[i]);
+		printf("%s\n", arr[i]);
 		i++;
 	}
 }

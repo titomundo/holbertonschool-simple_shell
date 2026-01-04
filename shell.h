@@ -8,9 +8,12 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
+extern char **environ;
+
 /* AUX */
 void print_prompt(void);
 char *get_userin();
+int builtins(char *input);
 
 /* ARRAYS */
 void print_array(char **arr);

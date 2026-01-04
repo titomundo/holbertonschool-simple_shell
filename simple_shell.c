@@ -16,8 +16,14 @@ int main(int argc, char *argv[], char *env[])
 	{
 		buf = get_userin();
 
-		if (!buf || strcmp(buf, "exit") == 0)
+		if (!buf)
 			break;
+
+		if (builtins(buf) == 1)
+		{
+			free(buf);
+			continue;
+		}
 
 		args = arg_array(buf);
 

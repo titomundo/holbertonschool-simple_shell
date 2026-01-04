@@ -36,3 +36,28 @@ char *get_userin()
 
 	return (buf);
 }
+
+/**
+* builtins - checks for built-in commands
+*
+* @input: command to check
+*
+* Return: 1 if a command was found and executed, 0 otherwise
+*/
+int builtins(char *input)
+{
+
+	if (strcmp(input, "exit") == 0)
+	{
+		free(input);
+		exit(2);
+	}
+	else if (strcmp(input, "env") == 0)
+	{
+		print_array(environ);
+		return (1);
+	}
+
+	return (0);
+}
+
