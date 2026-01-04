@@ -8,7 +8,9 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
+/* AUX */
 void print_prompt(void);
+char *get_userin();
 
 /* ARRAYS */
 void print_array(char **arr);

@@ -1,17 +1,6 @@
 #include "shell.h"
 
 /**
- * print_prompt - prints the $ prompt to the user
- *
- * Return: void
- */
-void print_prompt(void)
-{
-	if (isatty(0) == 1)
-		printf("$ ");
-}
-
-/**
  * main - start shell
  * @argc: number of arguments
  * @argv: arguments
@@ -21,24 +10,22 @@ void print_prompt(void)
  */
 int main(int argc, char *argv[], char *env[])
 {
-	size_t len = 0;
-	ssize_t nread;
-	char *buf = NULL, *cmd, **args = NULL;
+	char *buf, *cmd, **args = NULL;
 
 	while (1)
 	{
-		print_prompt();
-		nread = getline(&buf, &len, stdin);
+		buf = get_userin();
 
-		if (nread < 1)
+		if (!buf || strcmp(buf, "exit") == 0)
 			break;
 
-		buf[nread - 1] = '\0';
-		nread--;
 		args = arg_array(buf);
 
 		if (!args)
+		{
+			free(buf);
 			continue;
+		}
 
 		cmd = get_cmd(split_path(get_path(env)), args[0]);
 
@@ -47,12 +34,9 @@ int main(int argc, char *argv[], char *env[])
 		else if (cmd)
 			run_cmd(cmd, args, env, buf);
 		else
-		{
-			free_array(args);
 			perror(argv[argc * 0]);
-			continue;
-		}
 
+		free(buf);
 		free(cmd);
 		free_array(args);
 		wait(NULL);
