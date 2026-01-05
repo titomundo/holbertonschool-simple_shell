@@ -1,10 +1,51 @@
-.TH simpleshell 1.0 "Dec 28 2025"
+.TH hsh 1 "hsh man page" "1.0" "Dec 28 2025"
 .SH NAME
-simpleshell - Simple Shell for Holberton School
+simpleshell - Simple Shell written in C for Holberton School
+.br
+
 .SH SYNOPSIS
-simpleshell
+Simple Shell program that emulates a simpler sh command written in C.
+.br
+
 .SH DESCRIPTION
 Simple shell recreation, can execute programs as written commands.
+.br
 Once you start the program you will be met with a prompt to start typing a command, you can use a program's name or a program's path.
+.br
+
+.SH USAGE
+This shell can be run in interactive mode, similiar to a command line interface. The "$ " prompt will appear when the user is asked for input and after a command has been executed.
+.br
+
+.RS
+host@linux: ./hsh
+.br
+$ ls
+.br
+hsh main.c shell.c 
+.br
+$ls
+.br
+.RE
+
+The program can also receive commands via piping (|), this the non-interactive mode.
+.br
+
+.RS
+host@linux: echo "ls" | ./hsh
+.br
+hsh main.c shell.c
+.br
+host@linux:
+.br
+.RE
+
+.SH BUILTINS
+.B env
+- prints the environment variables
+.br
+.B exit
+- exits the program
+
 .SH AUTHOR
 Tito Alberto Mundo Rodríguez

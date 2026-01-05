@@ -46,11 +46,10 @@ char *get_userin()
 */
 int builtins(char *input)
 {
-
 	if (strcmp(input, "exit") == 0)
 	{
 		free(input);
-		exit(2);
+		exit(0);
 	}
 	else if (strcmp(input, "env") == 0)
 	{
